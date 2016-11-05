@@ -1,6 +1,10 @@
 # remote-resource-verifier
 Microservice that takes URL addresses into a queue and performs checks
 
+# Requirements
+- PHP7
+- Sqlite
+
 # Paths
 
 ```
