@@ -1,10 +1,6 @@
 <?php
 // Routes
 
-$app->get('/[{name}]', function ($request, $response, $args) {
-    // Sample log message
-    $this->logger->info("Slim-Skeleton '/' route");
-
-    // Render index view
-    return $this->renderer->render($response, 'index.phtml', $args);
+$app->get('/queue/add/{escapedUrlAddress}/{type}', function ($request, $response, $args) use ($app) {
+    return (new \Controllers\AddToQueueController($app))->executeAction($request, $response);
 });

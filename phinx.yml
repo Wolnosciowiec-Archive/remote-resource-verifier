@@ -1,0 +1,12 @@
+paths:
+    migrations: ./migrations
+environments:
+    default_migration_table: wuv_migrations
+    default_database: default
+    default:
+        adapter: sqlite
+        name: ./data/database_prod.sqlite3
+
+    dev:
+        adapter: sqlite
+        name: ./data/database_dev.sqlite3
