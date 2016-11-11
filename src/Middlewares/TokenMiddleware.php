@@ -30,7 +30,7 @@ $app->add(function (ServerRequestInterface $request, Slim\Http\Response $respons
             ->withJson([
                 'success' => false,
                 'code'    => 403,
-                'message' => 'The file Ouh, sorry, the "_token" field does not contain a valid value could not be accessed'
+                'message' => 'Ouh, sorry, the "_token" field does not contain a valid value'
             ]);
 
         return $response;
