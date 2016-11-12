@@ -23,6 +23,11 @@ class QueueItem extends Entity
     protected $urlAddress;
 
     /**
+     * @var string $type
+     */
+    protected $type;
+
+    /**
      * @var \DateTime $dateAdded
      */
     protected $dateAdded;
@@ -42,6 +47,7 @@ class QueueItem extends Entity
         return [
             'id'         => ['type' => 'integer', 'length' => 10, 'autoincrement' => true, 'primary' => true],
             'urlAddress' => ['type' => 'string', 'length' => 254, 'required' => true, 'unique' => true, 'index' => true],
+            'type'       => ['type' => 'string', 'length' => 16, 'required' => true],
             'state'      => ['type' => 'string', 'length' => 16, 'required' => true, 'unique' => true, 'index' => true],
             'dateAdded'  => ['type' => 'datetime', 'required' => true, 'value' => new \DateTime()],
         ];
@@ -120,5 +126,23 @@ class QueueItem extends Entity
     public function getUrlAddress()
     {
         return $this->urlAddress;
+    }
+
+    /**
+     * @param string $type
+     * @return QueueItem
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 }

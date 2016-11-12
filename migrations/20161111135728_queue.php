@@ -37,6 +37,12 @@ class Queue extends AbstractMigration
             'default' => 'queued',
         ]);
 
+        $table->addColumn('type', 'string', [
+            'length'  => 16,
+            'null'    => false,
+            'default' => 'Url',
+        ]);
+
         $table->addColumn('dateAdded', 'datetime', [
             'null' => false,
         ]);

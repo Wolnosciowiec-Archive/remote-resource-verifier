@@ -31,7 +31,7 @@ $app->add(function (ServerRequestInterface $request, Slim\Http\Response $respons
                 'success' => false,
                 'code'    => 403,
                 'message' => 'Ouh, sorry, the "_token" field does not contain a valid value'
-            ]);
+            ], 403);
 
         return $response;
     }

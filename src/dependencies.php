@@ -37,6 +37,13 @@ $container['repository.queue_item'] = function (\Slim\Container $app) {
 };
 
 // factories
-$container['factory.queue_item'] = function () {
-    return new Factories\QueueItemFactory();
+$container['factory.type_handler'] = function (\Slim\Container $container) {
+    return new Factories\TypeHandlerFactory($container);
 };
+$container['factory.queue_item'] = function (\Slim\Container $container) {
+    return new Factories\QueueItemFactory($container->get('factory.type_handler'));
+};
+
+// type handlers
+$container['handler.Url'] = function () { return new \TypeHandlers\UrlHandler(); };
+$container['handler.Image'] = function () { return new \TypeHandlers\ImageHandler(); };

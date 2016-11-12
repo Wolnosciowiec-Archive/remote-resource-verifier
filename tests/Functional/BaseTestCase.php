@@ -7,6 +7,8 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use Slim\Http\Environment;
 
+@define('ENV', 'dev');
+
 /**
  * This is an example class that shows how you could set up a method that
  * runs the application. Note that it doesn't cover all use-cases and is
@@ -52,7 +54,7 @@ class BaseTestCase extends \PHPUnit_Framework_TestCase
         $response = new Response();
 
         // Use the application settings
-        $settings = require __DIR__ . '/../../src/settings.php';
+        $settings = require __DIR__ . '/../../src/settings_dev.php';
 
         // Instantiate the application
         $app = new App($settings);
@@ -61,9 +63,7 @@ class BaseTestCase extends \PHPUnit_Framework_TestCase
         require __DIR__ . '/../../src/dependencies.php';
 
         // Register middleware
-        if ($this->withMiddleware) {
-            require __DIR__ . '/../../src/middleware.php';
-        }
+        require __DIR__ . '/../../src/middleware.php';
 
         // Register routes
         require __DIR__ . '/../../src/routes.php';
@@ -73,5 +73,14 @@ class BaseTestCase extends \PHPUnit_Framework_TestCase
 
         // Return the response
         return $response;
+    }
+
+    /**
+     * Erase all data from the database
+     */
+    public function eraseDatabase()
+    {
+        @unlink(__DIR__ . '/../../data/database_dev.sqlite3');
+        shell_exec('cd ' . __DIR__ . '/../../ && ./vendor/bin/phinx migrate -e dev');
     }
 }

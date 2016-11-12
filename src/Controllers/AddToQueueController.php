@@ -2,6 +2,8 @@
 
 namespace Controllers;
 use Entities\QueueItem;
+use Exceptions\QueueItemException;
+use Exceptions\UnsupportedHandlerException;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -34,9 +36,28 @@ class AddToQueueController extends AbstractBaseController
             return $response;
         }
 
-        $queueItem = $this->getFactory()->createNewQueueItem($url);
-        var_dump($queueItem);
-        $this->getRepository()->save($queueItem);
+        try {
+            $queueItem = $this->getFactory()->createNewQueueItem($url, ucfirst($request->getAttribute('type')));
+            $this->getRepository()->save($queueItem);
+        }
+        catch (QueueItemException $e) {
+            $response->withJson([
+                'success' => false,
+                'message' => $e->getMessage(),
+                'type'    => get_class($e),
+            ], 400);
+            return $response;
+        }
+        // @todo: Refactor when PHP 7.1 will come out
+        // catch (QueueItemException | UnsupportedHandlerException $e) {
+        catch (UnsupportedHandlerException $e) {
+            $response->withJson([
+                'success' => false,
+                'message' => $e->getMessage(),
+                'type'    => get_class($e),
+            ], 400);
+            return $response;
+        }
 
         $response->withJson([
             'success' => true,

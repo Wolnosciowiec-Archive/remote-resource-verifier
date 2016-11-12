@@ -1,3 +1,3 @@
 <?php
 
-return require_once __DIR__ . '/settings_prod.php';
+return require __DIR__ . '/settings_prod.php';

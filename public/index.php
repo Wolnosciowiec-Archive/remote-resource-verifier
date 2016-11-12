@@ -30,4 +30,4 @@ require __DIR__ . '/../src/middleware.php';
 require __DIR__ . '/../src/routes.php';
 
 // Run app
-$app->run();
+return $app->run();

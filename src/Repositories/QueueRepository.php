@@ -11,7 +11,7 @@ class QueueRepository extends AbstractBaseRepository
 {
     /**
      * @param $state
-     * @return QueueItem[]
+     * @return QueueItem[]|\Spot\Query
      */
     public function findByState(string $state)
     {

@@ -31,6 +31,15 @@
         }
     },
     "scripts": {
+        "post-install-cmd": [
+            "./vendor/bin/phinx migrate -e default",
+            "./vendor/bin/phinx migrate -e dev"
+        ],
+        "post-update-cmd": [
+            "./vendor/bin/phinx migrate -e default",
+            "./vendor/bin/phinx migrate -e dev"
+        ],
+
         "start": "php -S 0.0.0.0:8080 -t public public/index.php",
         "test": "phpunit"
     }

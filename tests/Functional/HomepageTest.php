@@ -5,36 +5,24 @@ namespace Tests\Functional;
 class HomepageTest extends BaseTestCase
 {
     /**
-     * Test that the index route returns a rendered response containing the text 'SlimFramework' but not a greeting
+     * Test what happens if we just enter main page without passing a token
      */
-    public function testGetHomepageWithoutName()
+    public function testHomePageWithoutToken()
     {
         $response = $this->runApp('GET', '/');
 
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertContains('SlimFramework', (string)$response->getBody());
-        $this->assertNotContains('Hello', (string)$response->getBody());
+        $this->assertContains('Ouh, sorry, the \"_token\" field does not contain a valid value', (string)$response->getBody());
+        $this->assertEquals(403, $response->getStatusCode());
     }
 
     /**
-     * Test that the index route with optional name argument returns a rendered greeting
+     * And with token
      */
-    public function testGetHomepageWithGreeting()
+    public function testWithToken()
     {
-        $response = $this->runApp('GET', '/name');
+        $response = $this->runApp('GET', '/?_token=this-is-an-example-of-api-token');
 
+        $this->assertContains('Pong. Good morning Comrade, how are you? Do you have some URLs to check?', (string)$response->getBody());
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertContains('Hello name!', (string)$response->getBody());
-    }
-
-    /**
-     * Test that the index route won't accept a post request
-     */
-    public function testPostHomepageNotAllowed()
-    {
-        $response = $this->runApp('POST', '/', ['test']);
-
-        $this->assertEquals(405, $response->getStatusCode());
-        $this->assertContains('Method not allowed', (string)$response->getBody());
     }
 }
