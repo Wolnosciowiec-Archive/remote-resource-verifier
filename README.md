@@ -15,7 +15,7 @@ GET /queue/add/{escapedUrlAddress}/{protocol eg. http, ftp}
 POST /queue/add
 
 Example POST data:
-```
+
    - queue_data:
        0: 
            url_address: http://...
@@ -23,7 +23,6 @@ Example POST data:
        1:
            url_address: http://...
            type: url
-```
            
 
 # get all processed results and remove those elements from queue
