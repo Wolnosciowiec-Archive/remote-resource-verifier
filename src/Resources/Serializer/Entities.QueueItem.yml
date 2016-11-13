@@ -1,0 +1,15 @@
+Entities\QueueItem:
+    exclusion_policy: ALL
+
+    properties:
+        urlAddress:
+            expose: true
+
+        type:
+            expose: true
+
+        state:
+            expose: true
+
+        dateAdded:
+            expose: true

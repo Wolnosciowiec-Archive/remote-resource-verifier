@@ -7,10 +7,16 @@ use Spot\Entity;
 /**
  * @package Entities
  */
-class QueueItem extends Entity
+class QueueItem extends BaseEntity
 {
-    const STATE_QUEUED = 'queued';
-    const STATE_PROCESSED = 'processed';
+    // states of the current queue
+    const STATE_QUEUED          = 'queued';
+    const STATE_PROCESSED       = 'processed';
+    const STATE_FAILED          = 'failed';
+
+    // flushed states (archival)
+    const STATE_HISTORIC        = 'historic';
+    const STATE_HISTORIC_FAILED = 'historic_failed';
 
     /**
      * @var int $id
@@ -94,7 +100,15 @@ class QueueItem extends Entity
      */
     public function setState($state)
     {
-        if (!in_array($state, [self::STATE_PROCESSED, self::STATE_QUEUED])) {
+        $states = [
+            self::STATE_PROCESSED,
+            self::STATE_QUEUED,
+            self::STATE_FAILED,
+            self::STATE_HISTORIC_FAILED,
+            self::STATE_HISTORIC,
+        ];
+
+        if (!in_array($state, $states)) {
             throw new \InvalidArgumentException('Invalid object state selected');
         }
 

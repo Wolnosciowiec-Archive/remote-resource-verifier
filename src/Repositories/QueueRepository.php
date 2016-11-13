@@ -10,15 +10,15 @@ use Entities\QueueItem;
 class QueueRepository extends AbstractBaseRepository
 {
     /**
-     * @param $state
-     * @return QueueItem[]|\Spot\Query
+     * @param array|string $state
+     * @return QueueItem[]
      */
-    public function findByState(string $state)
+    public function findByState($state)
     {
         return $this->getDb()->mapper(QueueItem::class)
-            ->all()->where([
+            ->where([
                 'state' => $state,
-            ]);
+            ])->execute()->entities();
     }
 
     /**
@@ -35,10 +35,35 @@ class QueueRepository extends AbstractBaseRepository
 
     /**
      * @param QueueItem $entity
+     * @throws \InvalidArgumentException
      */
     public function save($entity)
     {
+        if (!$entity instanceof QueueItem) {
+            throw new \InvalidArgumentException('Input entity must be an instanceof QueueItem');
+        }
+
+        if ($entity->getId() > 0) {
+            $entity->update();
+            $this->getDb()->mapper(QueueItem::class)->update($entity);
+            return;
+        }
+
         $this->getDb()->mapper(QueueItem::class)
             ->save($entity);
+    }
+
+    /**
+     * @param QueueItem[] $entities
+     */
+    public function flushState(array $entities)
+    {
+        foreach ($entities as $queueItem) {
+            $newState = $queueItem->getState() === QueueItem::STATE_PROCESSED
+                ? QueueItem::STATE_HISTORIC : QueueItem::STATE_HISTORIC_FAILED;
+
+            $queueItem->setState($newState);
+            $this->save($queueItem);
+        }
     }
 }

@@ -25,8 +25,8 @@ class HomePageController extends AbstractBaseController
             'version' => '1.0',
             'queue' => [
                 'length' => [
-                    'queued'    => $this->getRepository()->findByState(QueueItem::STATE_QUEUED)->count(),
-                    'processed' => $this->getRepository()->findByState(QueueItem::STATE_PROCESSED)->count(),
+                    'queued'    => count($this->getRepository()->findByState(QueueItem::STATE_QUEUED)),
+                    'processed' => count($this->getRepository()->findByState(QueueItem::STATE_PROCESSED)),
                 ]
             ],
         ]);

@@ -1,5 +1,6 @@
 <?php
 
+use Doctrine\Common\Annotations\AnnotationRegistry;
 use Slim\App;
 
 $container = $app->getContainer();
@@ -26,6 +27,22 @@ $container['logger'] = function ($c) {
     $logger->pushProcessor(new Monolog\Processor\UidProcessor());
     $logger->pushHandler(new Monolog\Handler\StreamHandler($settings['path'], $settings['level']));
     return $logger;
+};
+
+// serializer
+$container['serializer'] = function (\Slim\Container $container) {
+
+    AnnotationRegistry::registerLoader('class_exists');
+
+    $reader = new \Doctrine\Common\Annotations\AnnotationReader();
+    $reader->addGlobalIgnoredName('returns');
+
+    return JMS\Serializer\SerializerBuilder::create()
+        ->addMetadataDir(__DIR__ . '/Resources/Serializer/')
+        ->setCacheDir(__DIR__. '/../data/cache/serializer/')
+        ->setDebug(true)
+        ->setAnnotationReader($reader)
+        ->build();
 };
 
 // repositories
