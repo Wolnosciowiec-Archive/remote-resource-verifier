@@ -8,6 +8,10 @@ $app->get('/queue/flush', function ($request, $response, $args) use ($app) {
     return (new \Controllers\FlushQueueController($app))->executeAction($request, $response);
 });
 
+$app->get('/jobs/process-queue', function ($request, $response, $args) use ($app) {
+    return (new \Controllers\ProcessQueueJobController($app))->executeAction($request, $response);
+});
+
 $app->get('/', function ($request, $response, $args) use ($app) {
     return (new \Controllers\HomePageController($app))->executeAction($request, $response);
 });

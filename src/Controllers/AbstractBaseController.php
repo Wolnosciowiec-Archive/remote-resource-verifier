@@ -29,6 +29,11 @@ abstract class AbstractBaseController
     private $serializer;
 
     /**
+     * @var \Interop\Container\ContainerInterface
+     */
+    private $container;
+
+    /**
      * @param App $app
      */
     public function __construct(App $app)
@@ -36,6 +41,7 @@ abstract class AbstractBaseController
         $this->repository = $app->getContainer()->get('repository.queue_item');
         $this->factory    = $app->getContainer()->get('factory.queue_item');
         $this->serializer = $app->getContainer()->get('serializer');
+        $this->container  = $app->getContainer();
     }
 
     /**
@@ -68,5 +74,13 @@ abstract class AbstractBaseController
     public function getSerializer()
     {
         return $this->serializer;
+    }
+
+    /**
+     * @return \Interop\Container\ContainerInterface
+     */
+    public function getContainer()
+    {
+        return $this->container;
     }
 }

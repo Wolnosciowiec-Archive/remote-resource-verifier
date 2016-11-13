@@ -33,7 +33,14 @@ class ImageHandler extends UrlHandler implements TypeHandlerInterface
      */
     public function isValid(string $url) : bool
     {
-        $stream = new Stream(@fopen($url, 'r'));
+        $fStream = @fopen($url, 'r');
+
+        // 404 error
+        if (!is_resource($fStream)) {
+            return false;
+        }
+
+        $stream = new Stream($fStream);
         $firstBytes = $stream->read(512);
 
         if (strlen($firstBytes) === 0) {
