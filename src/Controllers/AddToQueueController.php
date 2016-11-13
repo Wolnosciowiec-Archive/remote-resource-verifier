@@ -1,6 +1,7 @@
 <?php
 
 namespace Controllers;
+
 use Entities\QueueItem;
 use Exceptions\QueueItemException;
 use Exceptions\UnsupportedHandlerException;

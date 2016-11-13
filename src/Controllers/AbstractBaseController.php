@@ -13,6 +13,8 @@ use Slim\Http\Response;
  */
 abstract class AbstractBaseController
 {
+    const ERROR_REQUEST_INVALID = 'REQUEST_VALIDATION_FAILED';
+
     /**
      * @var QueueRepository $repository
      */
