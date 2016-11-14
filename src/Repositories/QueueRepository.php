@@ -43,14 +43,15 @@ class QueueRepository extends AbstractBaseRepository
             throw new \InvalidArgumentException('Input entity must be an instanceof QueueItem');
         }
 
+        $entity->update();
+
         if ($entity->getId() > 0) {
-            $entity->update();
             $this->getDb()->mapper(QueueItem::class)->update($entity);
             return;
         }
 
         $this->getDb()->mapper(QueueItem::class)
-            ->save($entity);
+            ->save($entity, ['validate' => false]);
     }
 
     /**

@@ -25,7 +25,7 @@ abstract class BaseEntity extends Entity
     public function update()
     {
         foreach (array_keys($this->fields()) as $fieldName) {
-            $this->_dataModified[$fieldName] = $this->$fieldName;
+            $this->_dataModified[$fieldName] = $this->_data[$fieldName] = $this->$fieldName;
         }
     }
 }

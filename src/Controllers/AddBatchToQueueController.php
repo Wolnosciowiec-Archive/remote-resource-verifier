@@ -1,6 +1,7 @@
 <?php
 
 namespace Controllers;
+use Monolog\Logger;
 use Slim\App;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -55,8 +56,8 @@ class AddBatchToQueueController extends AbstractBaseController
      */
     public function executeAction(Request $request, Response $response)
     {
-        $queueData = $request->getParam('queue_data');
-        $count     = 0;
+        $queueData    = $request->getParam('queue_data');
+        $count        = 0;
 
         foreach ($queueData as $index => $item) {
             try {
@@ -70,17 +71,27 @@ class AddBatchToQueueController extends AbstractBaseController
                 ]);
             }
 
-            $controller = new AddToQueueController($this->app);
-            $result = $controller->executeAction($request, clone $response);
+            $preparedRequest = clone $request;
+            $preparedRequest = $preparedRequest->withAttribute('escapedUrlAddress', base64_encode($item['url_address']));
+            $preparedRequest = $preparedRequest->withAttribute('type', $item['type']);
 
-            if ((int)$response->getStatusCode() > 300) {
+            $controller = new AddToQueueController($this->app);
+            $result = $controller->executeAction($preparedRequest, new Response());
+            $decoded = json_decode((string)$result->getBody(), true);
+
+
+            if ((int)$result->getStatusCode() > 300 || $decoded === false || $decoded['success'] === false) {
+
                 return $response->withJson([
-                    'success' => false,
+                    'success'     => false,
+                    'added_count' => $count,
                     'code'    => self::FAILED_ADDING_TO_QUEUE,
                     'message' => 'Failed adding multiple files to queue, stopped at position ' . $index . ', response: ' . (string)$result->getBody(),
+                    'note'    => 'Some entries were added',
                 ], 400);
             }
 
+            $this->getLogger()->debug('Batch response: ' . (string)$result->getBody());
             $count++;
         }
 

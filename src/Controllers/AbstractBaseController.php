@@ -3,6 +3,8 @@
 namespace Controllers;
 use Factories\QueueItemFactory;
 use JMS\Serializer\Serializer;
+use Monolog\Logger;
+use Psr\Log\LoggerInterface;
 use Repositories\QueueRepository;
 use Slim\App;
 use Slim\Http\Request;
@@ -36,6 +38,11 @@ abstract class AbstractBaseController
     private $container;
 
     /**
+     * @var LoggerInterface $logging
+     */
+    private $logger;
+
+    /**
      * @param App $app
      */
     public function __construct(App $app)
@@ -44,6 +51,7 @@ abstract class AbstractBaseController
         $this->factory    = $app->getContainer()->get('factory.queue_item');
         $this->serializer = $app->getContainer()->get('serializer');
         $this->container  = $app->getContainer();
+        $this->logger     = $app->getContainer()->get('logger');
     }
 
     /**
@@ -84,5 +92,13 @@ abstract class AbstractBaseController
     public function getContainer()
     {
         return $this->container;
+    }
+
+    /**
+     * @return LoggerInterface
+     */
+    public function getLogger()
+    {
+        return $this->logger;
     }
 }
