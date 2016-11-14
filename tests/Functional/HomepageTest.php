@@ -12,7 +12,6 @@ class HomepageTest extends BaseTestCase
         $response = $this->runApp('GET', '/');
 
         $this->assertContains('Ouh, sorry, the \"_token\" field does not contain a valid value', (string)$response->getBody());
-        $this->assertEquals(403, $response->getStatusCode());
     }
 
     /**

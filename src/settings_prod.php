@@ -3,6 +3,9 @@ return [
     'settings' => [
         'apiToken' => 'this-is-an-example-of-api-token',
 
+        // process the resource only once, keep it in history to not allow adding it again
+        'processOnlyOnce' => false,
+
         // limit to only X number of checks per one worker iteration eg. 16 checks per minute/request
         'processing.limitation' => 16,
 

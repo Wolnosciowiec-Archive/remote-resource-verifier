@@ -50,7 +50,7 @@ $container['repository.queue_item'] = function (\Slim\Container $app) {
     /** @var \Spot\Locator $db */
     $db = $app['spot'];
 
-    return new \Repositories\QueueRepository($db);
+    return new \Repositories\QueueRepository($db, $app->get('settings'));
 };
 
 // factories

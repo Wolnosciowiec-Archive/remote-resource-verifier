@@ -15,11 +15,18 @@ abstract class AbstractBaseRepository
     private $db;
 
     /**
-     * @param Locator $db
+     * @var \Slim\Collection|array $settings
      */
-    public function __construct(Locator $db)
+    protected $settings;
+
+    /**
+     * @param Locator $db
+     * @param \Slim\Collection $settings
+     */
+    public function __construct(Locator $db, \Slim\Collection $settings)
     {
         $this->db = $db;
+        $this->settings = $settings;
     }
 
     /**

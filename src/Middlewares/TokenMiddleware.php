@@ -8,17 +8,20 @@ use Psr\Http\Message\ServerRequestInterface;
  * @throws Exception
  * @return string
  */
-function getConfiguredToken(\Slim\App $app)
+if (!function_exists('getConfiguredToken'))
 {
-    if (!isset($app->getContainer()->get('settings')['apiToken'])) {
-        throw new \Exception('api_token is missing in the environment configuration');
-    }
+    function getConfiguredToken(\Slim\App $app)
+    {
+        if (!isset($app->getContainer()->get('settings')['apiToken'])) {
+            throw new \Exception('api_token is missing in the environment configuration');
+        }
 
-    if (getenv('API_TOKEN')) {
-        return getenv('API_TOKEN');
-    }
+        if (getenv('API_TOKEN')) {
+            return getenv('API_TOKEN');
+        }
 
-    return $app->getContainer()->get('settings')['apiToken'];
+        return $app->getContainer()->get('settings')['apiToken'];
+    }
 }
 
 $app->add(function (ServerRequestInterface $request, Slim\Http\Response $response, callable $next) use ($app) {

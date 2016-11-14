@@ -10,6 +10,14 @@ use Entities\QueueItem;
 class QueueRepository extends AbstractBaseRepository
 {
     /**
+     * @return bool
+     */
+    protected function isProcessingOnlyOnce()
+    {
+        return (bool)($this->settings['processOnlyOnce'] ?? false);
+    }
+
+    /**
      * @param array|string $state
      * @return QueueItem[]
      */
@@ -55,11 +63,28 @@ class QueueRepository extends AbstractBaseRepository
     }
 
     /**
+     * @param QueueItem $entity
+     */
+    public function delete($entity)
+    {
+        $this->getDb()->mapper(QueueItem::class)
+            ->delete([
+                'id' => $entity->getId(),
+            ]);
+    }
+
+    /**
      * @param QueueItem[] $entities
      */
     public function flushState(array $entities)
     {
         foreach ($entities as $queueItem) {
+
+            if ($this->isProcessingOnlyOnce()) {
+                $this->delete($queueItem);
+                continue;
+            }
+
             $newState = $queueItem->getState() === QueueItem::STATE_PROCESSED
                 ? QueueItem::STATE_HISTORIC : QueueItem::STATE_HISTORIC_FAILED;
 

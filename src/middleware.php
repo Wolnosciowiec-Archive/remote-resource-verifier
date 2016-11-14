@@ -1,3 +1,3 @@
 <?php
 
-require_once __DIR__ . '/Middlewares/TokenMiddleware.php';
+require __DIR__ . '/Middlewares/TokenMiddleware.php';
