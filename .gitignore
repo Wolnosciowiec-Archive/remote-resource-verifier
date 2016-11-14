@@ -1,3 +1,6 @@
 /vendor/
 /logs/*
 !/logs/README.md
+.idea
+/data/*
+!/data/README.md
