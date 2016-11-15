@@ -11,7 +11,7 @@ $settings = [
         // limit to only X number of checks per one worker iteration eg. 16 checks per minute/request
         'processing.limitation' => (getenv('WUV_PROCESS_LIMITATION') ? (int)getenv('WUV_PROCESS_LIMITATION') : 16),
 
-        'displayErrorDetails'    => false, // set to false in production
+        'displayErrorDetails'    => (getenv('WUV_DISPLAY_ERRORS') ? (bool)getenv('WUV_DISPLAY_ERRORS') : false), // set to false in production
         'addContentLengthHeader' => true, // Allow the web server to send the content-length header
 
         // Renderer settings
