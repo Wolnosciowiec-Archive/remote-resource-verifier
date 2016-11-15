@@ -13,6 +13,7 @@
     ],
     "require": {
         "php": ">=7.0",
+        "ext-pdo_sqlite": "*",
         "slim/slim": "~3",
         "slim/php-view": "~2",
         "monolog/monolog": ">=1.0",

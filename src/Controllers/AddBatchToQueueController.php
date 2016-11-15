@@ -59,6 +59,14 @@ class AddBatchToQueueController extends AbstractBaseController
         $queueData    = $request->getParam('queue_data');
         $count        = 0;
 
+        if (!is_array($queueData)) {
+            return $response->withJson([
+                'success' => false,
+                'code'    => self::ERROR_REQUEST_INVALID,
+                'message' => '"queue_data" POST parameter must be an array',
+            ]);
+        }
+
         foreach ($queueData as $index => $item) {
             try {
                 $this->validateQueueData($item, $index);
