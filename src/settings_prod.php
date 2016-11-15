@@ -6,7 +6,7 @@ $settings = [
         'apiToken' => (getenv('WUV_TOKEN') ? getenv('WUV_TOKEN') : 'this-is-an-example-of-api-token'),
 
         // process the resource only once, keep it in history to not allow adding it again
-        'processOnlyOnce' => (getenv('WUV_PROCESS_ONLY_ONCE') ? (bool)getenv('WUV_PROCESS_ONLY_ONCE') : false),
+        'processOnlyOnce' => (getenv('WUV_PROCESS_ONLY_ONCE') ? (bool)getenv('WUV_PROCESS_ONLY_ONCE') : true),
 
         // limit to only X number of checks per one worker iteration eg. 16 checks per minute/request
         'processing.limitation' => (getenv('WUV_PROCESS_LIMITATION') ? (int)getenv('WUV_PROCESS_LIMITATION') : 16),
