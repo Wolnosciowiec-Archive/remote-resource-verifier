@@ -9,6 +9,8 @@ use Repositories\QueueRepository;
 use Slim\App;
 use Slim\Http\Request;
 use Slim\Http\Response;
+use Slim\Views\PhpRenderer;
+use Slim\Views\Twig;
 
 /**
  * @package Controllers
@@ -43,6 +45,11 @@ abstract class AbstractBaseController
     private $logger;
 
     /**
+     * @var Twig $renderer
+     */
+    private $renderer;
+
+    /**
      * @param App $app
      */
     public function __construct(App $app)
@@ -52,6 +59,7 @@ abstract class AbstractBaseController
         $this->serializer = $app->getContainer()->get('serializer');
         $this->container  = $app->getContainer();
         $this->logger     = $app->getContainer()->get('logger');
+        $this->renderer   = $this->getContainer()->get('view');
     }
 
     /**
@@ -100,5 +108,13 @@ abstract class AbstractBaseController
     public function getLogger()
     {
         return $this->logger;
+    }
+
+    /**
+     * @return Twig
+     */
+    public function getRenderer()
+    {
+        return $this->renderer;
     }
 }

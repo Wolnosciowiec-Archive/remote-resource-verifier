@@ -19,3 +19,7 @@ $app->get('/jobs/process-queue', function ($request, $response, $args) use ($app
 $app->get('/', function ($request, $response, $args) use ($app) {
     return (new \Controllers\HomePageController($app))->executeAction($request, $response);
 });
+
+$app->get('/monitor/queue', function ($request, $response, $args) use ($app) {
+    return (new \Controllers\MonitorQueueController($app))->executeAction($request, $response);
+});

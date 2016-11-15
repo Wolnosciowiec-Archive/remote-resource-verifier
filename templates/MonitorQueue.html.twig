@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>URL Verifier statistics</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <h2>Current queue</h2>
+            <div class="list-group">
+                {% for queueItem in queueItems %}
+                    <a href="{{ queueItem.getUrlAddress() }}" target="_blank" class="list-group-item">
+                        <strong>#{{ queueItem.getId() }}</strong>
+                        <small>{{ queueItem.getUrlAddress() }}</small>
+
+                        <span class="badge pull-right">{{ queueItem.getState() }}</span>
+                        <span class="label label-info pull-right" style="margin-right: 5px;">{{ queueItem.getType() }}</span>
+                    </a>
+                {% endfor %}
+            </div>
+
+            <div>
+                Powered by <a href="https://github.com/Wolnosciowiec/remote-resource-verifier" target="_blank">remote-resource-verifier</a>,
+                a part of <a href="http://wolnosciowiec.net" target="_blank">Wolnosciowiec.net project</a> - an anarchist portal
+            </div>
+        </div>
+    </body>
+</html>

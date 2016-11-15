@@ -1,6 +1,8 @@
 <?php
+
 return [
     'settings' => [
+        'debug'    => false,
         'apiToken' => 'this-is-an-example-of-api-token',
 
         // process the resource only once, keep it in history to not allow adding it again
@@ -9,7 +11,7 @@ return [
         // limit to only X number of checks per one worker iteration eg. 16 checks per minute/request
         'processing.limitation' => 16,
 
-        'displayErrorDetails'    => true, // set to false in production
+        'displayErrorDetails'    => false, // set to false in production
         'addContentLengthHeader' => true, // Allow the web server to send the content-length header
 
         // Renderer settings

@@ -15,13 +15,12 @@
         "php": ">=7.0",
         "ext-pdo_sqlite": "*",
         "slim/slim": "~3",
-        "slim/php-view": "~2",
         "monolog/monolog": ">=1.0",
         "guzzle/guzzle": "~3.9",
-        "tuupola/slim-basic-auth": "2.*",
         "robmorgan/phinx": "0.6.*",
         "vlucas/spot2": "2.*",
-        "jms/serializer": "^1.4"
+        "jms/serializer": "^1.4",
+        "slim/twig-view": "^2.1"
     },
     "require-dev": {
         "phpunit/phpunit": ">=4.8 < 6.0"
@@ -34,10 +33,12 @@
     },
     "scripts": {
         "post-install-cmd": [
+            "rm ./data/cache/* -rf",
             "./vendor/bin/phinx migrate -e default",
             "./vendor/bin/phinx migrate -e dev"
         ],
         "post-update-cmd": [
+            "rm ./data/cache/* -rf",
             "./vendor/bin/phinx migrate -e default",
             "./vendor/bin/phinx migrate -e dev"
         ],
