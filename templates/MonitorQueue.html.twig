@@ -12,6 +12,12 @@
         <div class="container">
             <h2>Current queue</h2>
             <div class="list-group">
+                {% if not queueItems %}
+                    <div>
+                        Queue is currently empty, if you expect that it should contain something then please refresh the page.
+                    </div>
+                {% endif %}
+
                 {% for queueItem in queueItems %}
                     <a href="{{ queueItem.getUrlAddress() }}" target="_blank" class="list-group-item">
                         <strong>#{{ queueItem.getId() }}</strong>
