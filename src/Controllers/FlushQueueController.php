@@ -36,7 +36,12 @@ class FlushQueueController extends AbstractBaseController
             ]
         ], 'json');
 
-        $this->getRepository()->flushState($processed);
+        // passing flush_only=1 to the query string allows for testing the response handling
+        // without touching the data in the queue
+        if ($request->getParam('get_only') != '1') {
+            $this->getRepository()->flushState($processed);
+        }
+
         return $response->write($responseSerialized);
     }
 }
