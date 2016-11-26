@@ -1,32 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="wuv">
     <head>
         <title>URL Verifier statistics</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script data-require="angular.js@1.2.x" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js" data-semver="1.2.16"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+        <script>
+            var app = angular.module('wuv', []);
+
+            function EntryCtrl ($scope, $http, $interval) {
+
+                this.load = function () {
+                    $scope.queue = [];
+                    $http.get('?format=json&_token={{ token }}').success(function (node) {
+
+                        if (JSON.stringify($scope.queue) != JSON.stringify(node.queue)) {
+                            $scope.queue = node.queue;
+                            $scope.$apply();
+                        }
+
+                        console.log('Initializing nodes...');
+                    });
+                };
+
+                var eCtl = this;
+
+                window.setInterval(function() {
+                    console.log('Updating scope');
+                    eCtl.load();
+                }, 5000);
+                this.load();
+            }
+        </script>
     </head>
     <body>
         <div class="container">
             <h2>Current queue</h2>
-            <div class="list-group">
-                {% if not queueItems %}
-                    <div>
+            <div class="list-group" ng-controller="EntryCtrl">
+                {% verbatim %}
+                    <div ng-show="!queue.length">
                         Queue is currently empty, if you expect that it should contain something then please refresh the page.
                     </div>
-                {% endif %}
 
-                {% for queueItem in queueItems %}
-                    <a href="{{ queueItem.getUrlAddress() }}" target="_blank" class="list-group-item">
-                        <strong>#{{ queueItem.getId() }}</strong>
-                        <small>{{ queueItem.getUrlAddress() }}</small>
+                    <a href="{{queueItem.url_address}}" target="_blank" class="list-group-item" ng-repeat="queueItem in queue">
+                        <strong>#{{queueItem.id}}</strong>
+                        <small>{{queueItem.url_address}}</small>
 
-                        <span class="badge pull-right">{{ queueItem.getState() }}</span>
-                        <span class="label label-info pull-right" style="margin-right: 5px;">{{ queueItem.getType() }}</span>
+                        <span class="badge pull-right">{{queueItem.state}}</span>
+                        <span class="label label-info pull-right" style="margin-right: 5px;">{{queueItem.type}}</span>
                     </a>
-                {% endfor %}
+                {% endverbatim %}
             </div>
 
             <div>

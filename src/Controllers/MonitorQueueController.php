@@ -21,7 +21,15 @@ class MonitorQueueController extends AbstractBaseController
             QueueItem::STATE_FAILED,
         ]);
 
+        if ($request->getParam('format') === 'json') {
+            return $this->getSerializer()->serialize([
+                'success' => true,
+                'queue'   => $queueItems,
+            ], 'json');
+        }
+
         return $this->getRenderer()->render($response, 'MonitorQueue.html.twig', [
+            'token'      => $this->getContainer()->get('settings')['apiToken'],
             'queueItems' => $queueItems,
         ]);
     }

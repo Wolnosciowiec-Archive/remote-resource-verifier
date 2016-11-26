@@ -2,6 +2,9 @@ Entities\QueueItem:
     exclusion_policy: ALL
 
     properties:
+        id:
+            expose: true
+
         urlAddress:
             expose: true
 
