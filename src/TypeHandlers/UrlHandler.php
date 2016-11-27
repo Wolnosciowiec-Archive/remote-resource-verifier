@@ -3,6 +3,7 @@
 namespace TypeHandlers;
 
 use Guzzle\Http\Client;
+use Guzzle\Http\Exception\ClientErrorResponseException;
 
 /**
  * Handles remote URL verification
@@ -26,7 +27,13 @@ class UrlHandler implements TypeHandlerInterface
     public function isValid(string $url) : bool
     {
         $client = new Client();
-        $response = $client->head($url)->send();
+
+        try {
+            $response = $client->head($url)->send();
+        }
+        catch (ClientErrorResponseException $e) {
+            return false;
+        }
 
         return $response->getStatusCode() === 200;
     }
