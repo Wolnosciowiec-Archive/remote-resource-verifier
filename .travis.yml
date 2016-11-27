@@ -4,6 +4,11 @@ php:
   - nightly
 
 before_script:
+  - composer require satooshi/php-coveralls:dev-master
   - composer install && composer dump-autoload -o
 
-script: ./vendor/bin/phpunit
+script:
+  - ./vendor/bin/phpunit --coverage-clover ./clover.xml
+
+after_script:
+  - php
