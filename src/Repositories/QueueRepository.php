@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Repositories;
 
@@ -80,7 +80,9 @@ class QueueRepository extends AbstractBaseRepository
     {
         foreach ($entities as $queueItem) {
 
-            if ($this->isProcessingOnlyOnce()) {
+            if (!$this->isProcessingOnlyOnce()
+                && $queueItem->getState() === QueueItem::STATE_PROCESSED
+            ) {
                 $this->delete($queueItem);
                 continue;
             }
