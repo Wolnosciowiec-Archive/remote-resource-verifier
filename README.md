@@ -9,7 +9,7 @@ Microservice that takes URL addresses into a queue and performs checks
 
 ```
 # put new item into the queue
-GET /queue/add/{escapedUrlAddress}/{protocol eg. http, ftp}
+GET /queue/add/{escapedUrlAddress - encoded with base64}/{protocol eg. http, ftp}
 
 # put multiple new items into the queue
 POST /queue/add
