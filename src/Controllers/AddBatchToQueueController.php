@@ -40,11 +40,11 @@ class AddBatchToQueueController extends AbstractBaseController
         }
 
         if (!isset($data['url_address'])) {
-            throw new \Exception('Item at index "' . $index . '" is missing "url_address" paramter');
+            throw new \Exception('Item at index "' . $index . '" is missing "url_address" parameter');
         }
 
         if (!isset($data['type'])) {
-            throw new \Exception('Item at index "' . $index . '" is missing "type" paramter');
+            throw new \Exception('Item at index "' . $index . '" is missing "type" parameter');
         }
     }
 
@@ -56,6 +56,7 @@ class AddBatchToQueueController extends AbstractBaseController
      */
     public function executeAction(Request $request, Response $response)
     {
+        $errors = [];
         $queueData    = $request->getParam('queue_data');
         $count        = 0;
 
@@ -72,11 +73,8 @@ class AddBatchToQueueController extends AbstractBaseController
                 $this->validateQueueData($item, $index);
             }
             catch (\Exception $e) {
-                return $response->withJson([
-                    'success' => false,
-                    'code'    => self::ERROR_REQUEST_INVALID,
-                    'message' => $e->getMessage(),
-                ]);
+                $errors[] = $e->getMessage();
+                continue;
             }
 
             $preparedRequest = clone $request;
@@ -101,6 +99,14 @@ class AddBatchToQueueController extends AbstractBaseController
 
             $this->getLogger()->debug('Batch response: ' . (string)$result->getBody());
             $count++;
+        }
+
+        if (count($errors) > 0) {
+            return $response->withJson([
+                'success' => false,
+                'code'    => self::ERROR_REQUEST_INVALID,
+                'errors'  => $errors,
+            ]);
         }
 
         return $response->withJson([
