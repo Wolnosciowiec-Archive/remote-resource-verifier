@@ -1,0 +1,33 @@
+{
+    "name": "Wolnosciowiec Remote Resource Verifier",
+    "description": "Microservice that takes URL addresses into a queue and performs checks",
+    "repository": "https://github.com/Wolnosciowiec/remote-resource-verifier",
+    "logo": "https://avatars0.githubusercontent.com/u/22785395",
+    "keywords": ["verifier", "external resources", "url verification", "verification"],
+
+    "env": {
+        "WUV_TOKEN": {
+            "description": "Secret API authorization token that needs to be passed using _token parameter in the query string",
+            "required": true,
+            "generator": "secret"
+        },
+
+        "WUV_PROCESS_ONLY_ONCE": {
+            "description": "Assume that all resources that failed at least once will not be available anymore",
+            "value": "0",
+            "required": false
+        },
+
+        "WUV_PROCESS_LIMITATION": {
+            "description": "Limit to only X number of checks per one worker iteration eg. 16 checks per request",
+            "value": "16",
+            "required": true
+        },
+
+        "WUV_DISPLAY_ERRORS": {
+            "description": "Debugging mode",
+            "value": "1",
+            "required": false
+        }
+    }
+}
