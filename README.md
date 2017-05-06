@@ -1,7 +1,7 @@
 # remote-resource-verifier
 Microservice that takes URL addresses into a queue and performs checks
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/Wolnosciowiec/web-proxy)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/Wolnosciowiec/remote-resource-verifier)
 
 # Requirements
 - PHP7
